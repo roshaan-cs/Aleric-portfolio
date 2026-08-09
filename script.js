@@ -1,30 +1,35 @@
-// ========================================
+// ================================
 // MOBILE MENU
-// ========================================
+// ================================
 
 const menuButton = document.getElementById("menuButton");
 const nav = document.querySelector(".nav nav");
 
-menuButton.addEventListener("click", function () {
-    nav.classList.toggle("mobile-open");
-});
+if (menuButton && nav) {
+    menuButton.addEventListener("click", () => {
+        nav.classList.toggle("mobile-open");
+    });
+
+    // Close menu after clicking a navigation link
+    nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            nav.classList.remove("mobile-open");
+        });
+    });
 }
 
 
-// ========================================
-// SCROLL REVEAL
-// ========================================
+// ================================
+// REVEAL SECTIONS
+// ================================
 
-const revealElements = document.querySelectorAll(
-    ".section, .blog-section"
-);
+const sections = document.querySelectorAll(".section");
 
 const observer = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("show");
-                observer.unobserve(entry.target);
             }
         });
     },
@@ -33,40 +38,40 @@ const observer = new IntersectionObserver(
     }
 );
 
-revealElements.forEach((element) => {
-    observer.observe(element);
+sections.forEach((section) => {
+    observer.observe(section);
 });
 
 
-// ========================================
+// ================================
 // CUSTOM CURSOR
-// ========================================
+// ================================
 
 const cursorDot = document.querySelector(".cursor-dot");
 const cursorCircle = document.querySelector(".cursor-circle");
 
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+let circleX = mouseX;
+let circleY = mouseY;
+
 if (cursorDot && cursorCircle) {
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-
-    let circleX = mouseX;
-    let circleY = mouseY;
 
     document.addEventListener("mousemove", (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        cursorDot.style.left = `${mouseX}px`;
-        cursorDot.style.top = `${mouseY}px`;
+        cursorDot.style.left = mouseX + "px";
+        cursorDot.style.top = mouseY + "px";
     });
 
     function animateCursor() {
         circleX += (mouseX - circleX) * 0.12;
         circleY += (mouseY - circleY) * 0.12;
 
-        cursorCircle.style.left = `${circleX}px`;
-        cursorCircle.style.top = `${circleY}px`;
+        cursorCircle.style.left = circleX + "px";
+        cursorCircle.style.top = circleY + "px";
 
         requestAnimationFrame(animateCursor);
     }
@@ -78,6 +83,7 @@ if (cursorDot && cursorCircle) {
     );
 
     hoverElements.forEach((element) => {
+
         element.addEventListener("mouseenter", () => {
             cursorCircle.classList.add("cursor-hover");
         });
@@ -85,19 +91,20 @@ if (cursorDot && cursorCircle) {
         element.addEventListener("mouseleave", () => {
             cursorCircle.classList.remove("cursor-hover");
         });
+
     });
 }
 
 
-// ========================================
+// ================================
 // SMOOTH NAVIGATION
-// ========================================
+// ================================
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
-    link.addEventListener("click", (e) => {
+    link.addEventListener("click", function (e) {
 
-        const targetId = link.getAttribute("href");
+        const targetId = this.getAttribute("href");
 
         if (!targetId || targetId === "#") return;
 
@@ -117,9 +124,9 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 
-// ========================================
+// ================================
 // BACK TO TOP
-// ========================================
+// ================================
 
 const backTop = document.getElementById("backTop");
 
