@@ -1102,6 +1102,10 @@ em {
     }
 }
 
+/* ================================
+   MOBILE NAVIGATION
+================================ */
+
 @media (max-width: 800px) {
 
     .nav {
@@ -1113,14 +1117,14 @@ em {
         position: absolute;
         top: 55px;
         left: 0;
-        right: 0;
+        width: 100%;
         background: #f7f6f2;
         padding: 25px;
         flex-direction: column;
         gap: 20px;
         border: 1px solid #ddd;
         border-radius: 15px;
-        z-index: 1000;
+        z-index: 9999;
     }
 
     .nav nav.mobile-open {
@@ -1128,11 +1132,15 @@ em {
     }
 
     .nav nav a {
+        display: block;
         font-size: 16px;
     }
 
     .menu-button {
         display: block;
+        border: none;
+        background: transparent;
+        font-size: 25px;
         cursor: pointer;
     }
 }
