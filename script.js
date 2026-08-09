@@ -3,11 +3,11 @@
 // ========================================
 
 const menuButton = document.getElementById("menuButton");
+const nav = document.querySelector(".nav nav");
 
-if (menuButton) {
-    menuButton.addEventListener("click", () => {
-        alert("Mobile navigation coming soon!");
-    });
+menuButton.addEventListener("click", function () {
+    nav.classList.toggle("mobile-open");
+});
 }
 
 
