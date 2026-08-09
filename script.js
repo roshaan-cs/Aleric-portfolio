@@ -1,55 +1,47 @@
 const menuButton = document.getElementById("menuButton");
-const mobileMenu = document.getElementById("mobileMenu");
 
-if (menuButton && mobileMenu) {
+if (menuButton) {
     menuButton.addEventListener("click", () => {
-        const isOpen = mobileMenu.classList.toggle("active");
-
-        menuButton.setAttribute("aria-expanded", isOpen);
-
-        menuButton.textContent = isOpen ? "×" : "☰";
-    });
-
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => {
-            mobileMenu.classList.remove("active");
-            menuButton.setAttribute("aria-expanded", "false");
-            menuButton.textContent = "☰";
-        });
+        alert("Mobile navigation coming soon!");
     });
 }
 
-const sections = document.querySelectorAll(".section");
+const revealElements = document.querySelectorAll(
+    ".section, .blog-section"
+);
 
 const observer = new IntersectionObserver(
     (entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add("show");
+                observer.unobserve(entry.target);
             }
         });
     },
     {
-        threshold: 0.1
+        threshold: 0.15
     }
 );
 
-sections.forEach((section) => {
-    observer.observe(section);
+revealElements.forEach((element) => {
+    observer.observe(element);
 });
 
 const cursorDot = document.querySelector(".cursor-dot");
 const cursorCircle = document.querySelector(".cursor-circle");
 
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-let circleX = mouseX;
-let circleY = mouseY;
-
 if (cursorDot && cursorCircle) {
-    document.addEventListener("mousemove", (event) => {
-        mouseX = event.clientX;
-        mouseY = event.clientY;
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    let circleX = mouseX;
+    let circleY = mouseY;
+
+    document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
 
         cursorDot.style.left = `${mouseX}px`;
         cursorDot.style.top = `${mouseY}px`;
@@ -83,32 +75,34 @@ if (cursorDot && cursorCircle) {
 }
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", function (event) {
-        const targetId = this.getAttribute("href");
 
-        if (!targetId || targetId === "#") {
-            return;
-        }
+    link.addEventListener("click", (e) => {
+
+        const targetId = link.getAttribute("href");
+
+        if (!targetId || targetId === "#") return;
 
         const target = document.querySelector(targetId);
 
-        if (!target) {
-            return;
-        }
+        if (!target) return;
 
-        event.preventDefault();
+        e.preventDefault();
 
         target.scrollIntoView({
             behavior: "smooth",
             block: "start"
         });
+
     });
+
 });
 
 const backTop = document.getElementById("backTop");
 
 if (backTop) {
+
     window.addEventListener("scroll", () => {
+
         if (window.scrollY > 600) {
             backTop.style.opacity = "1";
             backTop.style.pointerEvents = "auto";
@@ -116,12 +110,16 @@ if (backTop) {
             backTop.style.opacity = "0";
             backTop.style.pointerEvents = "none";
         }
+
     });
 
     backTop.addEventListener("click", () => {
+
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
+
     });
+
 }
